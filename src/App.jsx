@@ -1,27 +1,6 @@
 import { useState } from "react";
-import reactImg from "./assets/react-core-concepts.png";
 import { CORE_CONCEPTS, EXAMPLES } from "./data.js";
-
-const reactDescriptions = ["Fundamental", "Crucial", "Core"];
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * (max + 1));
-}
-
-function Header() {
-  const description = reactDescriptions[getRandomInt(2)];
-
-  return (
-    <header>
-      <img src={reactImg} alt="Stylized atom" />
-      <h1>React Essentials</h1>
-      <p>
-        {description} React concepts you will need for almost any app you are
-        going to build!
-      </p>
-    </header>
-  );
-}
+import Header from "./header.jsx";
 
 function ConceptSession() {
   return (
@@ -48,8 +27,12 @@ function Concepts({ image, title, description }) {
   );
 }
 
-function Button({ title, functionClick }) {
-  return <button onClick={functionClick}>{title}</button>;
+function Button({ title, functionClick, isSelected }) {
+  return (
+    <button className={isSelected ? "active" : ""} onClick={functionClick}>
+      {title}
+    </button>
+  );
 }
 
 function TabDetail({ index }) {
@@ -66,7 +49,7 @@ function TabDetail({ index }) {
 }
 
 function ButtonSession() {
-  const defaultText = "Please select a button";
+  const defaultText = "Please select a topic";
   const [index, setIndex] = useState(null);
 
   const handleButtonClick = (index) => {
@@ -80,6 +63,7 @@ function ButtonSession() {
           {Object.values(EXAMPLES).map((item, idx) => (
             <Button
               key={item.title}
+              isSelected={index === idx}
               title={item.title}
               functionClick={() => handleButtonClick(idx)}
             />
